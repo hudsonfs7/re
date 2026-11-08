@@ -299,6 +299,12 @@ body.idle{cursor:none}
 .quiz.revealed .qmeta{display:none}
 .quiz.revealed .hit{margin-top:46px}
 
+/* ---------- modo captura (?shot=N) ---------- */
+body.shot *,body.shot *::before,body.shot *::after{animation-duration:0s!important;animation-delay:0s!important;animation-iteration-count:1!important;transition:none!important}
+body.shot #hud,body.shot #lower3,body.shot #fxtop,body.shot #wipe,body.shot .token,body.shot .rainbox{display:none!important}
+body.shot .mseat{opacity:1;transform:none}
+body.shot #podium{opacity:1!important}
+
 /* ---------- plenário ---------- */
 .spot{position:absolute;left:50%;top:0;width:1000px;height:1080px;margin-left:-500px;background:radial-gradient(ellipse at 50% 0,#f5d68a26,transparent 65%);pointer-events:none;animation:spot 5s ease-in-out infinite alternate}
 @keyframes spot{from{transform:rotate(-8deg)}to{transform:rotate(8deg)}}

@@ -85,7 +85,8 @@ window.RE = (() => {
   };
 
   function voteUrl() {
-    const sala = new URLSearchParams(location.search).get("sala");
+    const sp = new URLSearchParams(location.search);
+    const sala = sp.get("shot") ? null : sp.get("sala"); // nas imagens do roteiro mostra o link oficial
     const q = sala ? "?sala=" + encodeURIComponent(sala) : "";
     if (CONFIG.VOTE_URL) return CONFIG.VOTE_URL + q;
     if (location.protocol.startsWith("http")) return new URL("./", location.href).origin + new URL("./", location.href).pathname + q;

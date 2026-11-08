@@ -434,7 +434,9 @@
   }
 
   function renderPlenary() {
-    const top = ranking();
+    let top = ranking();
+    if (!top.length && document.body.classList.contains("shot")) // exemplo só para a imagem do roteiro
+      top = ["Ana", "Pedro", "Júlia", "Lucas", "Marina", "Rafael", "Bia", "Caio", "Lara", "Davi", "Sofia"].map((nick, k) => ({ nick, pts: 720 - k * 55, hits: Math.max(2, 5 - Math.floor(k / 3)) }));
     const arc = $("#arc"); arc.innerHTML = "";
     const order = [5, 4, 6, 3, 7, 2, 8, 1, 9, 0, 10];
     const podium = $("#podium");
@@ -507,6 +509,9 @@
   }
 
   window.__deck = { go, next, slides, manualVote, reveal };
+  // modo captura (?shot=N): mostra o slide N já com tudo revelado, sem animação (usado para gerar o roteiro)
+  const shot = parseInt(new URLSearchParams(location.search).get("shot"), 10);
+  if (shot > 0) { document.body.classList.add("shot"); go(Math.min(shot, slides.length) - 1, true); return; }
   const start = parseInt((location.hash || "").slice(1), 10);
   go(Number.isFinite(start) && start > 0 ? Math.min(start, slides.length) - 1 : 0);
 })();
