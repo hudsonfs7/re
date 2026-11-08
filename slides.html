@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recurso Extraordinário</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="slides.css?v=5">
+<link rel="stylesheet" href="fx.css?v=5">
+</head>
+<body>
+<div id="viewport">
+<div id="stage">
+
+  <!-- ===================== ABERTURA ===================== -->
+  <section class="slide cover" data-ch="intro" data-role="intro"
+    data-notes="Boas-vindas: cumprimenta o professor e a turma, apresenta o grupo e o tema. Pede para deixarem o celular por perto: vai ter quiz ao vivo no final.">
+    <div class="cover-lines"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <svg class="scales" viewBox="0 0 600 620" aria-hidden="true">
+      <defs><linearGradient id="gGold" x1="0" x2="1"><stop offset="0" stop-color="#b98a26"/><stop offset=".5" stop-color="#f5d68a"/><stop offset="1" stop-color="#b98a26"/></linearGradient></defs>
+      <path class="dr" pathLength="1" d="M200 590 L400 590 M240 590 Q300 560 360 590 M300 575 L300 150"/>
+      <circle class="dr" pathLength="1" cx="300" cy="128" r="18"/>
+      <g class="beam">
+        <path class="dr" pathLength="1" d="M90 165 L510 165"/>
+        <g class="pan pl"><path class="dr" pathLength="1" d="M110 165 L60 360 M110 165 L160 360 M40 360 Q110 420 180 360 Z"/></g>
+        <g class="pan pr"><path class="dr" pathLength="1" d="M490 165 L440 360 M490 165 L540 360 M420 360 Q490 420 560 360 Z"/></g>
+      </g>
+    </svg>
+    <div class="cover-body">
+      <div class="kicker">Direito do Trabalho · Prof. Renato Franco de Assis</div>
+      <h1 class="mega"><span class="mline split-c">Recurso</span><br><em>Extraordinário</em></h1>
+      <p class="sub">no processo do trabalho: o caminho até o STF</p>
+      <div class="names" id="coverNames"></div>
+    </div>
+    <div class="rec"><span></span>AULA AO VIVO</div>
+  </section>
+
+  <section class="slide" data-ch="intro" data-role="intro"
+    data-notes="Boas-vindas: apresenta o roteiro como 'capítulos', igual a uma videoaula. Avisa do quiz com votação pelo celular.">
+    <div class="eyebrow">Nesta aula</div>
+    <h2 class="title">O roteiro de hoje</h2>
+    <div class="agenda" id="agenda"></div>
+  </section>
+
+  <section class="slide center" data-ch="intro" data-role="intro"
+    data-notes="Boas-vindas: pergunta provocativa. Espera 2 segundos. Avança: 'Muitas vezes quem decide é o STF, e o caminho até lá é o recurso extraordinário.'">
+    <h2 class="hook">Quem dá a <span class="gold">última palavra</span><br>sobre o Direito do Trabalho?</h2>
+    <div class="f hook-ans" data-fx="burst">
+      <div class="pill-row">
+        <div class="pill"><b>Terceirização</b><span>Tema 725</span></div>
+        <div class="pill"><b>Poder Público</b><span>Tema 246</span></div>
+        <div class="pill"><b>Negociado × legislado</b><span>Tema 1.046</span></div>
+      </div>
+      <p class="lead">Todos decididos pelo <b class="stf-glow">STF</b>, por meio de <b class="gold">recurso extraordinário</b>.</p>
+    </div>
+  </section>
+
+  <!-- ===================== BLOCO A ===================== -->
+  <section class="slide chapter" data-ch="a" data-role="a" data-wipe
+    data-notes="Apresentador 1 assume: 'Bom, primeiro: o que é esse recurso e quando ele cabe.'">
+    <svg class="ch-svg" viewBox="0 0 600 700" aria-hidden="true"><text x="300" y="610" text-anchor="middle">A</text></svg>
+    <div class="ch-body">
+      <div class="eyebrow">Capítulo A</div>
+      <h2 class="title">O que é e quando cabe</h2>
+      <ol class="ch-list"><li>Recurso de natureza extraordinária</li><li>O caminho até o STF</li><li>Hipóteses de cabimento e a “pegadinha” da alçada</li></ol>
+    </div>
+  </section>
+
+  <section class="slide" data-ch="a" data-role="a"
+    data-notes="Apresentador 1: recurso ordinário protege a parte e permite rever tudo, inclusive prova. Recurso extraordinário protege a norma (a Constituição) e só discute direito. O interesse da parte é atendido 'de tabela'.">
+    <div class="eyebrow">A.1 · Natureza</div>
+    <h2 class="title">Dois tipos de recurso</h2>
+    <div class="versus">
+      <div class="vs-card f left">
+        <div class="vs-ico">👤</div>
+        <div class="vs-tag">Ordinário</div>
+        <h3>Protege a <u>parte</u></h3>
+        <ul><li>Revisão ampla</li><li>Fatos <b>e</b> provas</li><li>Ex.: recurso ordinário ao TRT</li></ul>
+      </div>
+      <div class="vs-mid f zoom spin">×</div>
+      <div class="vs-card gold-card f right" data-fx="spark">
+        <div class="vs-ico">📜</div>
+        <div class="vs-tag">Extraordinário</div>
+        <h3>Protege a <u>Constituição</u></h3>
+        <ul><li>Fundamentação vinculada</li><li>Só questão de direito</li><li>Ex.: RR (TST) e <b>RE (STF)</b></li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-ch="a" data-role="a"
+    data-notes="Apresentador 1 percorre a escada: Vara, TRT, TST e por último o STF. No último degrau o 'processo' sobe a escada. O RE não é uma '4ª instância' para rejulgar a causa.">
+    <div class="eyebrow">A.2 · O caminho</div>
+    <h2 class="title">A escada até o Supremo</h2>
+    <div class="stairs">
+      <div class="step s1 f fall"><b>Vara do Trabalho</b><span>sentença</span></div>
+      <div class="arrow a1 f">Recurso ordinário</div>
+      <div class="step s2 f fall"><b>TRT</b><span>acórdão regional</span></div>
+      <div class="arrow a2 f">Recurso de revista</div>
+      <div class="step s3 f fall"><b>TST</b><span>Turma → SBDI-1 (embargos)</span></div>
+      <div class="arrow a3 f gold">Recurso extraordinário</div>
+      <div class="step s4 f fall" data-fx="climb"><b>STF</b><span>guardião da Constituição</span></div>
+      <div class="token">📄</div>
+    </div>
+    <p class="foot f">Não é “4ª instância”: o STF não rejulga a causa, ele protege a Constituição.</p>
+  </section>
+
+  <section class="slide" data-ch="a" data-role="a"
+    data-notes="Apresentador 1: lê o caput rapidamente. No trabalhista, quase sempre é a alínea 'a': contrariar a CF (art. 7º, art. 5º...). A alínea 'b' aparece quando o TST declara lei federal inconstitucional.">
+    <div class="eyebrow">A.3 · Cabimento</div>
+    <h2 class="title">CF, art. 102, III</h2>
+    <p class="quote type">“…causas decididas em <b>única ou última instância</b>, quando a decisão recorrida:”</p>
+    <div class="grid4">
+      <div class="al hot f flipx" data-fx="spark"><span>a</span>contrariar dispositivo da Constituição<em>a mais comum no trabalhista</em></div>
+      <div class="al f flipx"><span>b</span>declarar a inconstitucionalidade de tratado ou lei federal</div>
+      <div class="al f flipx"><span>c</span>julgar válida lei ou ato de governo local contestado em face da CF</div>
+      <div class="al f flipx"><span>d</span>julgar válida lei local contestada em face de lei federal</div>
+    </div>
+  </section>
+
+  <section class="slide" data-ch="a" data-role="a"
+    data-notes="Apresentador 1: três regras de ouro. 1) Súmula 505: da Justiça do Trabalho só vai ao STF o que for constitucional. 2) Súmula 281: tem que esgotar os recursos antes. 3) A pegadinha: na causa de alçada, a sentença da Vara já é de única instância, então cabe RE direto ao STF (Súmula 640) se for matéria constitucional.">
+    <div class="eyebrow">A.4 · Na Justiça do Trabalho</div>
+    <h2 class="title">Três regras de ouro</h2>
+    <div class="rules">
+      <div class="rule f left"><div class="num">1</div><div><h4>Só matéria constitucional</h4><p>Súmula 505 STF: das decisões da Justiça do Trabalho só cabe recurso ao STF se contrariarem a Constituição.</p></div></div>
+      <div class="rule f left"><div class="num">2</div><div><h4>Esgote as instâncias</h4><p>Súmula 281 STF: se ainda cabe recurso na origem (RR, embargos…), não cabe RE.</p></div></div>
+      <div class="rule hotrule f left"><div class="num">3</div><div><h4>A “pegadinha”: causa de alçada</h4><p>Até 2 salários mínimos: sentença irrecorrível, <b>salvo matéria constitucional</b> (Lei 5.584/70, art. 2º, § 4º). Aí cabe RE <b>direto da Vara ao STF</b> (Súmula 640).</p></div></div>
+    </div>
+    <div class="shortcut f zoom" data-fx="spark"><span>Vara</span><i><b></b></i><span class="gold">STF</span></div>
+  </section>
+
+  <section class="slide recap" data-ch="a" data-role="a"
+    data-notes="Apresentador 1 faz a recapitulação rápida e passa: 'Agora o próximo bloco mostra por que tão poucos recursos chegam lá.'">
+    <div class="recap-tag"><span class="ring10"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="19"/></svg><b>10</b></span>Recapitulando em 10 segundos</div>
+    <ul class="recap-list">
+      <li class="f">RE = recurso <b>extraordinário</b>: protege a Constituição, não rejulga a causa.</li>
+      <li class="f">Cabe contra decisão de <b>única ou última instância</b>, em regra do TST.</li>
+      <li class="f">Na Justiça do Trabalho: <b>só matéria constitucional</b>, e alçada vai direto.</li>
+    </ul>
+  </section>
+
+  <!-- ===================== BLOCO B ===================== -->
+  <section class="slide chapter" data-ch="b" data-role="b" data-wipe
+    data-notes="Apresentador 2: 'Imagina o RE passando por um funil. Vamos ver cada filtro.'">
+    <svg class="ch-svg" viewBox="0 0 600 700" aria-hidden="true"><text x="300" y="610" text-anchor="middle">B</text></svg>
+    <div class="ch-body">
+      <div class="eyebrow">Capítulo B</div>
+      <h2 class="title">Os filtros do RE</h2>
+      <ol class="ch-list"><li>Prazo e preparo</li><li>Ofensa direta, prequestionamento e provas</li><li>Repercussão geral</li></ol>
+    </div>
+  </section>
+
+  <section class="slide" data-ch="b" data-role="b"
+    data-notes="Apresentador 2 apresenta o funil camada por camada. No final, os 'recursos' caem pelo funil e quase todos são barrados: só um chega ao STF.">
+    <div class="eyebrow">B.1 · Visão geral</div>
+    <h2 class="title">O funil do Supremo</h2>
+    <div class="funnel">
+      <div class="rainbox" id="rainbox"></div>
+      <div class="layer l1 f zoom"><b>Pressupostos genéricos</b><span>prazo de 15 dias úteis · preparo · regularidade formal</span></div>
+      <div class="layer l2 f zoom"><b>Ofensa direta à CF</b><span>ofensa reflexa não passa (Súm. 636)</span></div>
+      <div class="layer l3 f zoom"><b>Prequestionamento</b><span>a matéria tem que estar no acórdão (Súm. 282 e 356)</span></div>
+      <div class="layer l4 f zoom"><b>Sem reexame de provas</b><span>Súmula 279</span></div>
+      <div class="layer l5 f zoom"><b>Repercussão geral</b><span>CF, art. 102, § 3º</span></div>
+      <div class="drop f pop" data-fx="rain">STF</div>
+    </div>
+  </section>
+
+  <section class="slide" data-ch="b" data-role="b"
+    data-notes="Apresentador 2: 15 dias (CPC 1.003 §5º), diferente dos 8 dias dos recursos trabalhistas. Fazenda e MP em dobro. Preparo: custas do STF e depósito recursal (IN 3/93 do TST), com isenções da Reforma (art. 899 §§9º e 10). Petição completa (CPC 1.029).">
+    <div class="eyebrow">B.2 · Pressupostos genéricos</div>
+    <h2 class="title">Ficha técnica</h2>
+    <div class="spec">
+      <div class="spec-item f pop" data-fx="count"><div class="big" data-count="15">0</div><div><b>dias úteis</b><p>CPC, art. 1.003, § 5º. Não são os 8 dias da CLT. Fazenda e MP: em dobro.</p></div></div>
+      <div class="spec-item f pop"><div class="big coin">R$</div><div><b>Preparo</b><p>Custas do STF + depósito recursal (IN 3/93 TST), com isenções e reduções do art. 899, §§ 9º e 10, CLT.</p></div></div>
+      <div class="spec-item f pop"><div class="big swing">§</div><div><b>Petição</b><p>Fatos e direito, cabimento e razões da reforma (CPC, art. 1.029).</p></div></div>
+    </div>
+  </section>
+
+  <section class="slide" data-ch="b" data-role="b"
+    data-notes="Apresentador 2 usa o exemplo: 'o TST interpretou errado o art. 59 da CLT, logo violou o art. 7º XIII'. Para ver a violação da CF, primeiro tenho que discutir a CLT, então a ofensa é reflexa e o RE não cabe (Súm. 636). No carimbo, a tela treme.">
+    <div class="eyebrow">B.3 · Ofensa direta</div>
+    <h2 class="title">Direta ou reflexa?</h2>
+    <div class="chain">
+      <div class="node f pop">Decisão do TST</div>
+      <div class="link f">interpreta</div>
+      <div class="node f pop">CLT, art. 59</div>
+      <div class="link f">e “por tabela”</div>
+      <div class="node f pop">CF, art. 7º, XIII</div>
+    </div>
+    <div class="verdict f" data-fx="stamp"><span class="stamp-s red">REFLEXA</span><p>Se para ver a ofensa à CF preciso antes discutir a lei, o RE não cabe. <b>Súmula 636 do STF.</b></p></div>
+  </section>
+
+  <section class="slide" data-ch="b" data-role="b"
+    data-notes="Apresentador 2: prequestionar é fazer o tribunal falar sobre o tema constitucional. Se ele foi omisso, embargos de declaração. Novidade do CPC/2015: prequestionamento ficto (art. 1.025). Provas: Súmula 279, o STF não vê se teve hora extra ou não.">
+    <div class="eyebrow">B.4 · Prequestionamento e provas</div>
+    <h2 class="title">Tem que estar no acórdão</h2>
+    <div class="two">
+      <div class="card f left">
+        <h4>📌 Prequestionamento</h4>
+        <p>A questão constitucional precisa ter sido <b>debatida e decidida</b> (Súm. 282 e 356 STF).</p>
+        <p class="tip">💡 Omissão? <b>Embargos de declaração</b>. CPC, art. 1.025: prequestionamento <b>ficto</b>.</p>
+      </div>
+      <div class="card f right">
+        <h4>🔍 Fatos e provas? Não.</h4>
+        <p>“Para simples reexame de prova não cabe recurso extraordinário.”</p>
+        <p class="src">Súmula 279 STF · no TST, Súmula 126</p>
+        <div class="nope"><span>horas extras?</span> <span>testemunhas?</span> <span>justa causa?</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-ch="b" data-role="b"
+    data-notes="Apresentador 2: a repercussão geral é o filtro principal (EC 45/2004). Relevância econômica, política, social ou jurídica que vá além das partes. Para RECUSAR são 8 dos 11 ministros (2/3): avançar e ver as cadeiras acendendo. Comparar com a transcendência do RR (art. 896-A CLT). Guardar o '2/3' porque cai no quiz!">
+    <div class="eyebrow">B.5 · Repercussão geral</div>
+    <h2 class="title">O filtro principal</h2>
+    <div class="rg">
+      <div class="rg-left">
+        <div class="crit f"><span>💰 Econômica</span><span>🏛️ Política</span><span>👥 Social</span><span>⚖️ Jurídica</span></div>
+        <p class="f">…que <b>ultrapasse os interesses</b> das partes (CPC, art. 1.035, § 1º).</p>
+        <p class="f small">No TST, o filtro parecido é a <b>transcendência</b> do recurso de revista (CLT, art. 896-A).</p>
+      </div>
+      <div class="rg-right">
+        <div class="bench" id="bench"></div>
+        <div class="bench-cap f" id="benchCap" data-fx="bench"><b><span class="n8">0</span> de 11</b> ministros (2/3) para <u>recusar</u></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide recap" data-ch="b" data-role="b"
+    data-notes="Apresentador 2 recapitula e passa a palavra: 'E se passar por tudo isso, como ele anda?'">
+    <div class="recap-tag"><span class="ring10"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="19"/></svg><b>10</b></span>Recapitulando em 10 segundos</div>
+    <ul class="recap-list">
+      <li class="f"><b>15 dias</b>, preparo e petição completa.</li>
+      <li class="f">Ofensa <b>direta</b> à CF, <b>prequestionada</b>, <b>sem</b> reexame de prova.</li>
+      <li class="f"><b>Repercussão geral</b>: só 2/3 do STF pode recusar.</li>
+    </ul>
+  </section>
+
+  <!-- ===================== BLOCO C ===================== -->
+  <section class="slide chapter" data-ch="c" data-role="c" data-wipe
+    data-notes="Apresentador 3: 'Agora: como o RE tramita, o que acontece com a execução, e os casos que mudaram o Direito do Trabalho.'">
+    <svg class="ch-svg" viewBox="0 0 600 700" aria-hidden="true"><text x="300" y="610" text-anchor="middle">C</text></svg>
+    <div class="ch-body">
+      <div class="eyebrow">Capítulo C</div>
+      <h2 class="title">Tramitação, efeitos e casos</h2>
+      <ol class="ch-list"><li>Do TST ao STF</li><li>A execução não para</li><li>Temas que mudaram o jogo</li></ol>
+    </div>
+  </section>
+
+  <section class="slide" data-ch="c" data-role="c"
+    data-notes="Apresentador 3: interpõe na Vice-Presidência do TST, contrarrazões em 15 dias, juízo de admissibilidade (art. 1.030 CPC): nega, devolve para retratação, sobrestá ou admite. Se negar: agravo interno quando a base for repercussão geral, ou agravo em RE (art. 1.042) nos demais casos.">
+    <div class="eyebrow">C.1 · Tramitação</div>
+    <h2 class="title">Do TST ao STF</h2>
+    <div class="flow">
+      <div class="fl f pop"><i>1</i><b>Interposição</b><span>Vice-Presidência do TST</span></div>
+      <div class="fl f pop"><i>2</i><b>Contrarrazões</b><span>15 dias</span></div>
+      <div class="fl f pop"><i>3</i><b>Admissibilidade</b><span>CPC, art. 1.030</span></div>
+      <div class="fl gold-fl f pop" data-fx="spark"><i>4</i><b>STF</b><span>julgamento</span></div>
+    </div>
+    <div class="branches">
+      <div class="br f left"><b>Nega seguimento</b> com base em repercussão geral → <u>agravo interno</u> (art. 1.030, § 2º)</div>
+      <div class="br f left"><b>Inadmite</b> nos demais casos → <u>agravo em RE</u> (art. 1.042)</div>
+      <div class="br f left"><b>Tema pendente no STF</b> → <u>sobrestamento</u> ou retratação</div>
+    </div>
+  </section>
+
+  <section class="slide" data-ch="c" data-role="c"
+    data-notes="Apresentador 3: efeito só devolutivo. CLT 893 §2º: recorrer ao STF não prejudica a execução (a esteira continua andando). Crédito trabalhista é alimentar. Exceção: efeito suspensivo por pedido (CPC 1.029 §5º).">
+    <div class="eyebrow">C.2 · Efeitos</div>
+    <h2 class="title">A execução não para</h2>
+    <div class="belt">
+      <div class="belt-track"><div class="belt-move"></div><div class="coins"><i>R$</i><i>R$</i><i>R$</i><i>R$</i><i>R$</i></div><span>EXECUÇÃO SEGUINDO…</span></div>
+      <div class="belt-re">RE no STF <span class="hourglass">⏳</span></div>
+    </div>
+    <div class="two">
+      <div class="card f left"><h4>Regra: só efeito devolutivo</h4><p>“A interposição de recurso para o Supremo Tribunal Federal <b>não prejudicará a execução</b> do julgado.”</p><p class="src">CLT, art. 893, § 2º · CPC, art. 995</p></div>
+      <div class="card f right"><h4>Exceção: efeito suspensivo</h4><p>Pode ser pedido ao STF ou ao Vice-Presidente do TST, mostrando chance de vitória e risco de dano.</p><p class="src">CPC, art. 1.029, § 5º</p></div>
+    </div>
+  </section>
+
+  <section class="slide" data-ch="c" data-role="c"
+    data-notes="Apresentador 3: pergunta à turma antes de virar cada carta ('o que vocês acham?'). Tema 725: terceirização liberada em qualquer atividade, superou a Súm. 331 do TST nesse ponto. Tema 246: Administração não responde automaticamente. Tema 1.046: negociado vale, menos sobre direitos absolutamente indisponíveis. Tese em repercussão geral vincula todo mundo (CPC 927, III).">
+    <div class="eyebrow">C.3 · Na prática</div>
+    <h2 class="title">Temas que mudaram o jogo</h2>
+    <div class="flips">
+      <div class="flip f" data-fx="flip"><div class="inner"><div class="front"><small>Tema 725 · RE 958.252</small><h3>Terceirização</h3><p>Pode terceirizar atividade-fim?</p><div class="tap">vire a carta ↻</div></div><div class="back"><p><b>Sim.</b> É lícita em qualquer atividade, mantida a <u>responsabilidade subsidiária</u> da contratante. (2018)</p></div></div></div>
+      <div class="flip f" data-fx="flip"><div class="inner"><div class="front"><small>Tema 246 · RE 760.931</small><h3>Poder Público</h3><p>A Administração paga automaticamente se a terceirizada der calote?</p><div class="tap">vire a carta ↻</div></div><div class="back"><p><b>Não.</b> Não há transferência <u>automática</u> da responsabilidade ao ente público. (2017)</p></div></div></div>
+      <div class="flip f" data-fx="flip"><div class="inner"><div class="front"><small>Tema 1.046 · ARE 1.121.633</small><h3>Negociado × legislado</h3><p>Norma coletiva pode limitar direito previsto em lei?</p><div class="tap">vire a carta ↻</div></div><div class="back"><p><b>Pode.</b> Desde que respeitados os direitos <u>absolutamente indisponíveis</u>. (2022)</p></div></div></div>
+    </div>
+    <p class="foot f">Tese de repercussão geral <b>vincula</b> juízes e tribunais (CPC, art. 927, III).</p>
+  </section>
+
+  <section class="slide" data-ch="c" data-role="c"
+    data-notes="Apresentador 3: dois temas em debate, Tema 1.291 (motoristas de aplicativo) e Tema 1.389 (pejotização). Mostra a tensão entre a jurisprudência protetiva do TST e a leitura do STF. Conferir o andamento no portal do STF antes da apresentação.">
+    <div class="eyebrow">C.4 · Em debate</div>
+    <h2 class="title">O que está na pauta</h2>
+    <div class="two">
+      <div class="card big-card f left"><small>Tema 1.291 · RE 1.446.336</small><h3><span class="bob">🚗</span> Motoristas de aplicativo</h3><p>Existe vínculo de emprego com a plataforma?</p></div>
+      <div class="card big-card f right"><small>Tema 1.389 · ARE 1.532.603</small><h3><span class="bob d2">🧾</span> “Pejotização”</h3><p>É lícito contratar trabalhador como autônomo ou como PJ?</p></div>
+    </div>
+    <div class="tug f zoom"><span>Proteção<small>Justiça do Trabalho</small></span><i><b></b></i><span>Livre iniciativa<small>leitura do STF</small></span></div>
+  </section>
+
+  <section class="slide" data-ch="c" data-role="c"
+    data-notes="Apresentador 3 compara linha a linha o RR e o RE. Destaque: prazo de 8 x 15 dias e transcendência x repercussão geral.">
+    <div class="eyebrow">C.5 · Comparando</div>
+    <h2 class="title">Revista × Extraordinário</h2>
+    <div class="cmp">
+      <div class="cmp-h"><span></span><span>Recurso de revista</span><span class="gold">Recurso extraordinário</span></div>
+      <div class="cmp-r f left"><span>Vai para</span><span>TST</span><span>STF</span></div>
+      <div class="cmp-r f right"><span>Fundamento</span><span>CLT, art. 896</span><span>CF, art. 102, III</span></div>
+      <div class="cmp-r f left"><span>Discute</span><span>lei federal, CF, divergência</span><span>só Constituição (ofensa direta)</span></div>
+      <div class="cmp-r f right"><span>Filtro</span><span>transcendência</span><span>repercussão geral</span></div>
+      <div class="cmp-r f left"><span>Prazo</span><span>8 dias</span><span>15 dias</span></div>
+      <div class="cmp-r f right"><span>Provas</span><span>não (Súm. 126 TST)</span><span>não (Súm. 279 STF)</span></div>
+    </div>
+  </section>
+
+  <section class="slide recap" data-ch="c" data-role="c"
+    data-notes="Apresentador 3 recapitula e chama o quiz: 'Agora é com vocês. Peguem o celular!'">
+    <div class="recap-tag"><span class="ring10"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="19"/></svg><b>10</b></span>Recapitulando em 10 segundos</div>
+    <ul class="recap-list">
+      <li class="f">Interposto na <b>Vice-Presidência do TST</b>; negado, cabe <b>agravo</b>.</li>
+      <li class="f">Efeito <b>devolutivo</b>: a <b>execução continua</b> (CLT, art. 893, § 2º).</li>
+      <li class="f">Teses do STF em repercussão geral <b>vinculam</b> a Justiça do Trabalho.</li>
+    </ul>
+  </section>
+
+  <!-- ===================== QUIZ ===================== -->
+  <section class="slide lobby" data-ch="quiz" data-role="quiz" data-lobby data-wipe
+    data-notes="Perguntas: 'Celular na mão! Aponta a câmera pro QR code, ou digita o link. Não precisa de login nem de app.' Cada pessoa que entra aparece flutuando na tela. Espera o contador subir. Regras: Verdadeiro ou Falso, quem acerta mais rápido ganha mais pontos, e os 11 melhores formam o Plenário da turma.">
+    <div class="bubbles" id="bubbles"></div>
+    <div class="lobby-l">
+      <div class="eyebrow">Quiz ao vivo</div>
+      <h2 class="title">Verdadeiro ou falso?<br><span class="gold">Vote pelo celular.</span></h2>
+      <ul class="rules-q">
+        <li>📱 Abra a câmera e aponte para o QR code</li>
+        <li>⚡ Acertou mais rápido, ganhou mais pontos</li>
+        <li>⚖️ Os <b>11 melhores</b> formam o <b>Plenário da turma</b></li>
+      </ul>
+      <div class="online"><span class="dot"></span><b id="onlineN">0</b> conectados</div>
+    </div>
+    <div class="lobby-r">
+      <div class="qrbox"><div id="qrBig"></div><i class="scan"></i></div>
+      <div class="url" id="urlBig"></div>
+    </div>
+  </section>
+
+  <section class="slide quiz" data-ch="quiz" data-role="quiz" data-q="0" data-notes="Perguntas: lê a afirmação em voz alta. Quando a contagem estabilizar, tecla R para revelar. Lê a justificativa."></section>
+  <section class="slide quiz" data-ch="quiz" data-role="quiz" data-q="1" data-notes="Perguntas: lê, espera os votos e aperta R para revelar."></section>
+  <section class="slide quiz" data-ch="quiz" data-role="quiz" data-q="2" data-notes="Perguntas: lê, espera os votos e aperta R para revelar. Essa costuma enganar!"></section>
+  <section class="slide quiz" data-ch="quiz" data-role="quiz" data-q="3" data-notes="Perguntas: 'Essa foi dada de bandeja no bloco B...' Depois R para revelar."></section>
+  <section class="slide quiz" data-ch="quiz" data-role="quiz" data-q="4" data-notes="Última! Lê, espera e aperta R para revelar."></section>
+
+  <section class="slide plenary" data-ch="quiz" data-role="quiz" data-result
+    data-notes="Perguntas: anuncia o Plenário da turma, os 11 melhores. As cadeiras aparecem do 11º ao 1º; no 1º, confete. Aplausos para o 'Presidente do STF da turma'.">
+    <div class="eyebrow">Resultado</div>
+    <h2 class="title">Plenário da turma</h2>
+    <div class="spot"></div>
+    <div class="arc" id="arc"></div>
+    <div class="podium" id="podium"></div>
+  </section>
+
+  <!-- ===================== ENCERRAMENTO ===================== -->
+  <section class="slide center closing" data-ch="end" data-role="end"
+    data-notes="Encerramento: conclusão em 3 frases. Agradece ao professor e à turma (no 'Obrigado!' cai confete). Abre para perguntas.">
+    <div class="eyebrow">Para levar</div>
+    <div class="takeaways">
+      <p class="f">O RE é a <b>porta estreita</b> da Justiça do Trabalho para o STF.</p>
+      <p class="f">Passa só <b>matéria constitucional</b>, direta, prequestionada e com <b>repercussão geral</b>.</p>
+      <p class="f">E é por ele que o STF tem dado a <b class="gold">última palavra</b> no Direito do Trabalho.</p>
+    </div>
+    <h2 class="thanks f" data-fx="party"><span class="split-c">Obrigado!</span></h2>
+    <p class="f small dim">Perguntas? · Trabalho escrito com referências completas (ABNT)</p>
+  </section>
+
+</div>
+</div>
+
+<!-- HUD -->
+<div id="hud">
+  <div id="chapters"></div>
+  <div id="hudInfo"><span id="snd" title="som (tecla S)">🔇</span><span id="slideN"></span><span id="conn" title="conexão da votação">●</span></div>
+</div>
+<div id="lower3"><div class="l3-bar"></div><div class="l3-box"><b id="l3name"></b><span id="l3role"></span></div></div>
+<div id="notes"><div id="notesSpeaker"></div><div id="notesText"></div></div>
+<div id="help">
+  <h3>Atalhos</h3>
+  <p><kbd>→</kbd> <kbd>Espaço</kbd> avançar · <kbd>←</kbd> voltar · <kbd>F</kbd> tela cheia</p>
+  <p><kbd>N</kbd> notas do apresentador · <kbd>H</kbd> esta ajuda · <kbd>S</kbd> liga/desliga sons</p>
+  <p><kbd>R</kbd> revelar a resposta (no quiz) · <kbd>T</kbd> parar/retomar o tempo</p>
+  <p>Plano B sem internet: <kbd>1</kbd> +1 voto Verdadeiro · <kbd>2</kbd> +1 voto Falso (mão levantada)</p>
+  <p><kbd>Shift</kbd>+<kbd>Z</kbd> zerar toda a votação</p>
+</div>
+
+<script src="https://unpkg.com/mqtt@5.10.1/dist/mqtt.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="shared.js?v=5"></script>
+<script src="fx.js?v=5"></script>
+<script src="slides.js?v=5"></script>
+</body>
+</html>
