@@ -286,6 +286,19 @@ body.idle{cursor:none}
 .quiz.revealed .bar:not(.wrong) .lab{animation:winLab 1s .5s ease-in-out 3}
 @keyframes winLab{50%{transform:scale(1.12);box-shadow:0 0 40px currentColor}}
 
+/* ---------- ver resposta / % de acerto ---------- */
+.reveal-btn{margin-top:40px;display:inline-flex;align-items:center;gap:14px;padding:22px 40px;border-radius:18px;border:2px solid var(--gold);background:linear-gradient(135deg,#3a2f12,#1a1a22);color:var(--gold2);font:800 30px var(--sans);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;box-shadow:0 0 0 0 #e3b54a55;animation:btnPulse 2.2s ease-in-out infinite;transition:transform .15s,background .2s}
+.reveal-btn:hover{transform:scale(1.04);background:linear-gradient(135deg,#4a3b14,#2a2412)}
+.reveal-btn span{font-size:22px}
+@keyframes btnPulse{50%{box-shadow:0 0 0 14px #e3b54a00,0 0 40px #e3b54a33}}
+.quiz.revealed .reveal-btn{display:none}
+.hit{display:none;margin-top:36px;align-items:baseline;gap:18px}
+.hit b{font:800 120px/1 var(--serif);color:var(--gold)}
+.hit span{font-size:34px;color:var(--ink)}
+.quiz.revealed .hit{display:flex;animation:popIn .7s .9s cubic-bezier(.2,1.6,.4,1) both}
+.quiz.revealed .qmeta{display:none}
+.quiz.revealed .hit{margin-top:46px}
+
 /* ---------- plenário ---------- */
 .spot{position:absolute;left:50%;top:0;width:1000px;height:1080px;margin-left:-500px;background:radial-gradient(ellipse at 50% 0,#f5d68a26,transparent 65%);pointer-events:none;animation:spot 5s ease-in-out infinite alternate}
 @keyframes spot{from{transform:rotate(-8deg)}to{transform:rotate(8deg)}}

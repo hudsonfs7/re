@@ -54,9 +54,11 @@
         <div class="qt">${Q.t}</div>
         <div class="qmeta">
           <div class="timer"><svg width="110" height="110"><circle cx="55" cy="55" r="48" stroke="#26345e" stroke-width="8" fill="none"/><circle class="tc" cx="55" cy="55" r="48" stroke="#e3b54a" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="301.6" stroke-dashoffset="0"/></svg><div class="tnum">${CONFIG.QUESTION_TIME}</div></div>
-          <div><b class="nv">0</b> votos</div>
+          <div><b class="nv">0</b> <span class="nvl">votos</span></div>
           <div class="tstate"></div>
         </div>
+        <button class="reveal-btn" type="button">Ver resposta <span>▶</span></button>
+        <div class="hit"><b class="hitp">0%</b><span>da turma acertou</span></div>
       </div>
       <div class="bars">
         <div class="bar isV ${Q.a ? "" : "wrong"}"><div class="pct">0%</div><div class="cnt">0</div><div class="col"></div><div class="lab">VERDADEIRO</div></div>
@@ -71,6 +73,14 @@
   // texto animado palavra por palavra / letra por letra
   $$(".title, .hook, .recap-list li, .takeaways p, .qt").forEach((el) => FX.splitWords(el, "w"));
   $$(".split-c").forEach((el) => FX.splitWords(el, "c"));
+
+  // botão "Ver resposta" (para o tempo e revela)
+  document.addEventListener("click", (e) => {
+    const b = e.target.closest(".reveal-btn");
+    if (!b) return;
+    e.stopPropagation();
+    reveal();
+  }, true);
 
   // QR codes
   function qr(el, size) {
@@ -340,8 +350,11 @@
     $(".col", bv).style.height = (n ? (V / n) * 380 : 0) + 12 + "px";
     $(".col", bf).style.height = (n ? (F / n) * 380 : 0) + 12 + "px";
     $(".nv", sl).textContent = n;
+    $(".nvl", sl).textContent = n === 1 ? "voto" : "votos";
     const correct = QUESTIONS[curQ].a ? V : F;
-    $(".rt", sl).textContent = (n ? Math.round((correct / n) * 100) : 0) + "%";
+    const rate = (n ? Math.round((correct / n) * 100) : 0) + "%";
+    $(".rt", sl).textContent = rate;
+    $(".hitp", sl).textContent = n ? rate : "–";
     $(".rgbadge", sl).classList.toggle("show", n >= 3 && (n - correct) / n >= 2 / 3);
   }
 
@@ -368,7 +381,7 @@
       const now = Date.now();
       if (!paused && phase === "open") {
         QZ.elapsed[curQ] = (QZ.elapsed[curQ] || 0) + (now - last);
-        if (setTimerUI() <= 0) { phase = "closed"; setTimerUI(); publishState(true); save(); FX.sfx("thud"); }
+        if (setTimerUI() <= 0) { save(); reveal(); } // acabou o tempo: mostra a resposta
       }
       last = now;
     }, 200);
@@ -384,7 +397,7 @@
   function reveal() {
     if (curQ == null || QZ.revealed[curQ]) return;
     QZ.revealed[curQ] = true; save();
-    phase = "reveal";
+    phase = "reveal"; paused = false;
     const sl = $(`.slide.quiz[data-q="${curQ}"]`);
     renderQuiz(); setTimerUI();
     sl.classList.remove("urgent");
