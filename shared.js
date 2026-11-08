@@ -77,7 +77,7 @@ window.RE = (() => {
     return s;
   }
   function randomNick() {
-    return "Min. " + NICK_A[Math.floor(Math.random() * NICK_A.length)] + " " + (10 + Math.floor(Math.random() * 90));
+    return "Participante " + (10 + Math.floor(Math.random() * 90));
   }
   const store = {
     get(k, d = null) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },

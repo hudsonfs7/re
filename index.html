@@ -49,6 +49,13 @@ p{color:var(--dim);font-size:16px;line-height:1.5}
 .score b{display:block;font:800 30px Fraunces,serif;color:var(--gold)}
 .score span{font-size:12px;color:var(--dim);letter-spacing:.1em;text-transform:uppercase}
 footer{font-size:12px;color:#5d6888;text-align:center}
+.namebox{margin-top:28px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px}
+.namebox label{display:block;font-weight:700;font-size:15px;margin-bottom:10px}
+.namebox div{display:flex;gap:8px}
+.namebox input{flex:1;min-width:0;background:#0a0f1e;border:1px solid var(--line);border-radius:12px;padding:14px;color:var(--ink);font:600 17px Inter}
+.namebox input:focus{outline:2px solid var(--gold);border-color:transparent}
+.namebox button{background:var(--gold);color:#0a0f1e;border:0;border-radius:12px;padding:0 18px;font:800 15px Inter;cursor:pointer}
+.namebox small{display:block;margin-top:10px;color:var(--dim);font-size:13px}
 .pop{animation:pop .5s cubic-bezier(.2,1.6,.4,1)}
 @keyframes pop{from{transform:scale(.7);opacity:0}}
 </style>
@@ -62,20 +69,42 @@ footer{font-size:12px;color:#5d6888;text-align:center}
 <footer>Recurso Extraordinário · Direito do Trabalho</footer>
 
 <script src="https://unpkg.com/mqtt@5.10.1/dist/mqtt.min.js"></script>
-<script src="shared.js?v=5"></script>
+<script src="shared.js?v=6"></script>
 <script>
 (() => {
   const { CONFIG, QUESTIONS, uid, randomNick, store, createBus } = window.RE;
   const KEY = "re_voter_" + CONFIG.ROOM;
-  const me = store.get(KEY) || { id: uid(10), nick: randomNick(), votes: {} };
+  const me = store.get(KEY) || { id: uid(10), votes: {} };
+  if (!me.nick || /^Min\. /.test(me.nick)) { me.nick = randomNick(); me.named = false; }
   store.set(KEY, me);
   const $ = (s) => document.querySelector(s);
   const view = $("#view");
   $("#nick").textContent = me.nick;
+  function setName(n) {
+    n = String(n || "").trim().replace(/\s+/g, " ").slice(0, 24);
+    if (!n) return false;
+    me.nick = n; me.named = true; store.set(KEY, me);
+    $("#nick").textContent = me.nick; hello();
+    return true;
+  }
   $("#edit").onclick = () => {
-    const n = prompt("Seu apelido no Plenário (opcional):", me.nick);
-    if (n && n.trim()) { me.nick = n.trim().slice(0, 24); store.set(KEY, me); $("#nick").textContent = me.nick; hello(); }
+    const box = document.getElementById("nm");
+    if (box) { box.focus(); box.select(); return; }
+    const n = prompt("Seu nome no ranking:", me.named ? me.nick : "");
+    setName(n);
   };
+  // campo de nome (aparece enquanto o quiz não começou)
+  function nameBox() {
+    return `<form class="namebox" id="nmf" autocomplete="off">
+      <label for="nm">${me.named ? "Seu nome no ranking" : "Qual seu nome? (opcional)"}</label>
+      <div><input id="nm" maxlength="24" placeholder="Ex.: Ana, Pedro S." value="${me.named ? esc(me.nick) : ""}"><button type="submit">${me.named ? "Trocar" : "Salvar"}</button></div>
+      <small>${me.named ? "Pronto! É assim que você aparece no ranking." : `Se não preencher, você aparece como “${esc(me.nick)}”.`}</small>
+    </form>`;
+  }
+  function bindNameBox() {
+    const f = document.getElementById("nmf"); if (!f) return;
+    f.onsubmit = (e) => { e.preventDefault(); if (setName(document.getElementById("nm").value)) render(true); };
+  }
 
   let st = null, lastKey = "", openedAtLocal = 0;
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -167,9 +196,11 @@ footer{font-size:12px;color:#5d6888;text-align:center}
         <div class="score"><div><b>${h}</b><span>acertos</span></div>${pos >= 0 ? `<div><b>${top[pos].pts}</b><span>pontos</span></div>` : ""}</div>
         <p>Obrigado por participar! 👏</p></div>`;
     } else if (st.phase === "lobby") {
-      view.innerHTML = `<div class="center pop"><div class="pulse"></div><div class="eyebrow">Você entrou!</div><h1>Prepare-se: o quiz já vai começar</h1><p>Seu nome no ranking é <b style="color:var(--ink)">${esc(me.nick)}</b>. Toque em “trocar” lá em cima se quiser mudar.</p></div>`;
+      view.innerHTML = `<div class="center pop"><div class="eyebrow">Você entrou! ✅</div><h1>O quiz já vai começar</h1><p>As perguntas aparecem nesta tela sozinhas. Deixe a página aberta.</p></div>${nameBox()}`;
+      bindNameBox();
     } else {
-      view.innerHTML = `<div class="center pop"><div class="pulse"></div><h1>Tudo certo por aqui ✅</h1><p>A apresentação está rolando. Quando o quiz começar, as perguntas aparecem nesta tela sozinhas. Deixe a página aberta.</p></div>`;
+      view.innerHTML = `<div class="center pop"><h1>Tudo certo por aqui ✅</h1><p>A apresentação está rolando. Quando o quiz começar, as perguntas aparecem nesta tela sozinhas. Deixe a página aberta.</p></div>${nameBox()}`;
+      bindNameBox();
     }
   }
 
