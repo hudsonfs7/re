@@ -8,7 +8,7 @@ window.RE = (() => {
     // Link que os celulares abrem (aparece no QR code). Vazio = detecta sozinho.
     VOTE_URL: "https://hudsonfs7.github.io/re/",
     // Tempo de cada pergunta (segundos)
-    QUESTION_TIME: 40,
+    QUESTION_TIME: 20,
     // Transportes em tempo real (públicos, sem cadastro). Usa todos ao mesmo tempo.
     BROKERS: [
       "wss://broker.emqx.io:8084/mqtt",
