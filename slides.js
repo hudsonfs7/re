@@ -15,7 +15,7 @@
   addEventListener("resize", fit); fit();
 
   /* ---------- conteúdo dinâmico ---------- */
-  const people = ["Alecio Crippa", "Breno Silva", "Ellaine Pamela", "Hudson Souza", "Igor Souza", "Jhuly Emanuelly", "Mateus Sena"];
+  const people = ["Aléssio Cripa", "Brenno Silva", "Elaine Pâmela", "Hudson Souza", "Igor Souza", "Jhuly Emanuelly", "Mateus Sena"];
   $("#coverNames").innerHTML = people.map((p, i) => `<span style="--i:${i}">${p}</span>`).join("");
 
   const CHAPTERS = [
