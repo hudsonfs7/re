@@ -317,4 +317,4 @@ p,li{font-size:32px;line-height:1.4}
 #help h3{font:600 30px var(--serif);margin-bottom:14px;color:var(--gold)}
 #help p{font-size:18px;margin:10px 0;color:var(--dim)}
 kbd{font:600 14px var(--sans);background:#ffffff14;border:1px solid #ffffff30;border-radius:6px;padding:2px 8px;color:var(--ink)}
-@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
