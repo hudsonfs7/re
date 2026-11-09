@@ -29,7 +29,7 @@
   $("#agenda").innerHTML = CHAPTERS.map((c, i) => {
     const r = ROLES[c.id];
     const title = { intro: "Boas-vindas", a: "O que é e quando cabe", b: "Os filtros do RE", c: "Tramitação, efeitos e casos", quiz: "Verdadeiro ou falso, ao vivo", end: "Conclusão" }[c.id];
-    return `<div class="ag" style="transition-delay:${0.15 + i * 0.12}s"><div class="play">▶</div><div class="t">${i === 0 ? "Abertura" : i === 4 ? "Quiz" : i === 5 ? "Final" : "Capítulo " + c.id.toUpperCase()}</div><h4>${title}</h4><div class="who">com ${r.name}</div></div>`;
+    return `<div class="ag" style="transition-delay:${0.15 + i * 0.12}s"><div class="play">▶</div><div class="t">${i === 0 ? "Abertura" : i === 4 ? "Quiz" : i === 5 ? "Final" : "Capítulo " + c.id.toUpperCase()}</div><h4>${title}</h4>${c.id === "end" ? "" : `<div class="who">com ${r.name}</div>`}</div>`;
   }).join("");
 
   // bancada do STF (11 ministros)
