@@ -321,4 +321,4 @@ body.shot #podium{opacity:1!important}
 #lower3.show .l3-box{clip-path:inset(0 0 0 0)}
 #snd{cursor:pointer;font-size:14px}
 
-@media (prefers-reduced-motion:reduce){.w,.ch,.names span,.seat,.crit span,.ch-list li{opacity:1!important;transform:none!important;filter:none!important}.mega em,.quote.type{clip-path:none!important}}
+
