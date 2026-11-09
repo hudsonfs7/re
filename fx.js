@@ -5,7 +5,7 @@
    - sons sintetizados (tecla S liga/desliga; começa desligado)
    ============================================================ */
 window.FX = (() => {
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reduce = false; // animações sempre ligadas, em qualquer máquina
   const vp = document.getElementById("viewport");
 
   /* ---------- fundo de partículas ---------- */
