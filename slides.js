@@ -57,6 +57,7 @@
           <div><b class="nv">0</b> <span class="nvl">votos</span></div>
           <div class="tstate"></div>
         </div>
+        <button class="start-btn" type="button">Iniciar votação <span>▶</span></button>
         <button class="reveal-btn" type="button">Ver resposta <span>▶</span></button>
         <div class="hit"><b class="hitp">0%</b><span>da turma acertou</span></div>
       </div>
@@ -73,6 +74,14 @@
   // texto animado palavra por palavra / letra por letra
   $$(".title, .hook, .recap-list li, .takeaways p, .qt").forEach((el) => FX.splitWords(el, "w"));
   $$(".split-c").forEach((el) => FX.splitWords(el, "c"));
+
+  // botão "Iniciar votação" (libera a pergunta nos celulares e começa os 30 s)
+  document.addEventListener("click", (e) => {
+    const b = e.target.closest(".start-btn");
+    if (!b) return;
+    e.stopPropagation();
+    startVoting();
+  }, true);
 
   // botão "Ver resposta" (para o tempo e revela)
   document.addEventListener("click", (e) => {
@@ -166,6 +175,7 @@
     FX.kick(dir);
     FX.sfx("whoosh");
     // reinicia animações CSS do slide
+    if (s.dataset.lobby != null) crowdStart();
     s.classList.remove("active"); void s.offsetWidth; s.classList.add("active");
     if (showAll) $$(".f", s).forEach((f) => onFragment(f, true));
     if (s.dataset.role !== lastRole) { lastRole = s.dataset.role; setTimeout(() => lowerThird(lastRole), 700); }
@@ -181,6 +191,8 @@
     const s = slides[cur];
     const f = $$(".f:not(.on)", s)[0];
     if (f) { f.classList.add("on"); onFragment(f); return; }
+    if (s.dataset.q != null && curQ != null && phase === "ready") { startVoting(); return; } // 1º avanço: libera a votação
+    if (s.dataset.q != null && curQ != null && !QZ.revealed[curQ]) { reveal(); return; } // avançar numa pergunta sem resposta revela a resposta
     go(cur + 1);
   }
   function prev() { go(cur - 1, true); }
@@ -254,7 +266,7 @@
       if (m.session && m.session !== QZ.session && kind === "vote") return;
       const isNew = m.id && !online[m.id];
       if (m.id) online[m.id] = Date.now();
-      if (isNew) joinBubble(m.nick);
+      if (m.id) crowdJoined(m.id, m.nick);
       if (kind === "vote") onVote(m);
       renderOnline();
     },
@@ -266,17 +278,102 @@
     },
   });
 
-  function joinBubble(nick) {
-    const s = slides[cur];
-    if (!s || s.dataset.lobby == null) return;
-    const b = document.createElement("div");
-    b.className = "bub";
-    b.textContent = "⚖️ " + String(nick || "Novo ministro").slice(0, 24) + " entrou";
-    b.style.left = 4 + Math.random() * 80 + "%";
-    $("#bubbles").appendChild(b);
-    setTimeout(() => b.remove(), 7200);
-    FX.sfx("pop");
+  /* ---------- nomes flutuando no lobby (emoji jurídico + cor própria) ---------- */
+  const CROWD_EMOJI = ["⚖️", "🏛️", "📜", "🔨", "👨‍⚖️", "👩‍⚖️", "📚", "🖋️", "🗂️", "📘", "🔖", "🧾"];
+  const CROWD_COLORS = ["#e3b54a", "#35d399", "#5b8cff", "#ff5a6a", "#c084fc", "#38bdf8", "#fb923c", "#f472b6", "#a3e635", "#2dd4bf", "#818cf8", "#e879f9"];
+  const crowd = {};
+  let crowdN = 0;
+  const rgba = (hex, a) => `rgba(${parseInt(hex.slice(1, 3), 16)},${parseInt(hex.slice(3, 5), 16)},${parseInt(hex.slice(5, 7), 16)},${a})`;
+  function crowdFit() {
+    const box = $("#crowd"), n = Object.keys(crowd).length;
+    if (box) { box.className = "crowd " + (n <= 18 ? "s0" : n <= 30 ? "s1" : n <= 46 ? "s2" : "s3"); Object.values(crowd).forEach((c) => { c.w = 0; }); }
   }
+  function crowdMeasure(c) { c.w = c.el.offsetWidth; c.h = c.el.offsetHeight; }
+  let crowdRaf = 0, crowdLast = 0;
+  function crowdTick(t) {
+    const s = slides[cur];
+    if (!s || s.dataset.lobby == null) { crowdRaf = 0; return; }
+    const dt = Math.min(0.05, (t - (crowdLast || t)) / 1000); crowdLast = t;
+    const W = 1920, H = 1080, L = Object.values(crowd);
+    L.forEach((c) => {
+      if (!c.w) crowdMeasure(c);
+      c.x += c.vx * dt; c.y += c.vy * dt;
+      if (c.x < 0) { c.x = 0; c.vx = Math.abs(c.vx); }
+      if (c.x + c.w > W) { c.x = W - c.w; c.vx = -Math.abs(c.vx); }
+      if (c.y < 0) { c.y = 0; c.vy = Math.abs(c.vy); }
+      if (c.y + c.h > H) { c.y = H - c.h; c.vy = -Math.abs(c.vy); }
+    });
+    for (let i = 0; i < L.length; i++) for (let j = i + 1; j < L.length; j++) {
+      const p = L[i], q = L[j];
+      const ox = Math.min(p.x + p.w, q.x + q.w) - Math.max(p.x, q.x);
+      const oy = Math.min(p.y + p.h, q.y + q.h) - Math.max(p.y, q.y);
+      if (ox <= 0 || oy <= 0) continue;
+      if (ox < oy) {
+        const dir = p.x + p.w / 2 < q.x + q.w / 2 ? -1 : 1;
+        p.x += dir * ox / 2; q.x -= dir * ox / 2;
+        const t1 = p.vx; p.vx = q.vx; q.vx = t1;
+        if (Math.sign(p.vx) !== dir) p.vx = dir * Math.abs(p.vx);
+        if (Math.sign(q.vx) !== -dir) q.vx = -dir * Math.abs(q.vx);
+      } else {
+        const dir = p.y + p.h / 2 < q.y + q.h / 2 ? -1 : 1;
+        p.y += dir * oy / 2; q.y -= dir * oy / 2;
+        const t1 = p.vy; p.vy = q.vy; q.vy = t1;
+        if (Math.sign(p.vy) !== dir) p.vy = dir * Math.abs(p.vy);
+        if (Math.sign(q.vy) !== -dir) q.vy = -dir * Math.abs(q.vy);
+      }
+    }
+    L.forEach((c) => { c.el.style.transform = `translate(${c.x.toFixed(1)}px,${c.y.toFixed(1)}px)`; });
+    crowdRaf = requestAnimationFrame(crowdTick);
+  }
+  function crowdStart() {
+    if (crowdRaf) return;
+    crowdLast = 0;
+    crowdRaf = requestAnimationFrame(crowdTick);
+  }
+  function crowdTag(id, nick) {
+    const box = $("#crowd");
+    if (!box || !id) return false;
+    nick = String(nick || "Novo ministro").slice(0, 24);
+    let c = crowd[id], isNew = false;
+    if (!c) {
+      isNew = true;
+      const k = crowdN++, col = CROWD_COLORS[k % CROWD_COLORS.length];
+      const el = document.createElement("div");
+      el.className = "ctag";
+      const st = el.style;
+      st.setProperty("--c", col);
+      st.setProperty("--cbg", rgba(col, 0.16));
+      st.setProperty("--cglow", rgba(col, 0.45));
+      el.innerHTML = `<div class="cin"><i>${CROWD_EMOJI[(k * 5) % CROWD_EMOJI.length]}</i><span></span></div>`;
+      box.appendChild(el);
+      const ang = Math.random() * Math.PI * 2, sp = 220 + Math.random() * 160;
+      c = crowd[id] = { el, nick: "", col, x: 100 + Math.random() * 1500, y: 60 + Math.random() * 900, vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp, w: 0, h: 0 };
+      if (Math.abs(c.vx) < 90) c.vx = 90 * (c.vx < 0 ? -1 : 1);
+      if (Math.abs(c.vy) < 90) c.vy = 90 * (c.vy < 0 ? -1 : 1);
+      el.style.transform = `translate(${c.x}px,${c.y}px)`;
+      crowdFit();
+    }
+    if (c.nick !== nick) { c.nick = nick; c.el.querySelector("span").textContent = nick; crowdMeasure(c); }
+    return isNew;
+  }
+  function crowdJoined(id, nick) {
+    const isNew = crowdTag(id, nick);
+    const s = slides[cur];
+    if (s && s.dataset.lobby != null) crowdStart();
+    if (isNew && s && s.dataset.lobby != null) {
+      FX.sfx("pop");
+      setTimeout(() => {
+        const r = crowd[id] && crowd[id].el.getBoundingClientRect();
+        if (r && r.width) FX.sparks(r.left + r.width / 2, r.top + r.height / 2, crowd[id].col, 14);
+      }, 350);
+    }
+  }
+  // quem sumiu há mais de 4 min (celular desligado) sai do céu de nomes
+  setInterval(() => {
+    const now = Date.now();
+    Object.keys(crowd).forEach((id) => { if (now - (online[id] || 0) > 240000) { crowd[id].el.remove(); delete crowd[id]; } });
+    crowdFit();
+  }, 20000);
 
   function onlineCount() {
     const now = Date.now();
@@ -366,7 +463,7 @@
     const sec = Math.ceil(left / 1000);
     $(".tnum", sl).textContent = sec;
     $(".tc", sl).style.strokeDashoffset = 301.6 * (1 - left / total);
-    $(".tstate", sl).textContent = QZ.revealed[curQ] ? "" : phase === "closed" ? "⛔ votação encerrada" : paused ? "⏸ pausado" : "";
+    $(".tstate", sl).textContent = QZ.revealed[curQ] ? "" : phase === "ready" ? "👀 leia a pergunta · celulares aguardando" : phase === "closed" ? "⛔ votação encerrada" : paused ? "⏸ pausado" : "";
     const urgent = phase === "open" && !paused && sec <= 5 && sec > 0;
     sl.classList.toggle("urgent", urgent);
     if (urgent && sec !== lastSec) FX.sfx("tick");
@@ -381,12 +478,24 @@
       const now = Date.now();
       if (!paused && phase === "open") {
         QZ.elapsed[curQ] = (QZ.elapsed[curQ] || 0) + (now - last);
-        if (setTimerUI() <= 0) { save(); reveal(); } // acabou o tempo: mostra a resposta
+        if (setTimerUI() <= 0) { phase = "closed"; save(); setTimerUI(); FX.sfx("thud"); publishState(true); } // acabou o tempo: só encerra a votação (resposta só em "Ver resposta" ou ao avançar)
       }
       last = now;
     }, 200);
   }
+  function startVoting() {
+    if (curQ == null || phase !== "ready") return;
+    const sl = $(`.slide.quiz[data-q="${curQ}"]`);
+    QZ.started = QZ.started || {}; QZ.started[curQ] = true;
+    QZ.opened[curQ] = Date.now(); QZ.elapsed = QZ.elapsed || {}; QZ.elapsed[curQ] = 0;
+    phase = "open"; paused = false; save();
+    sl.classList.remove("ready");
+    FX.sfx("ding");
+    startTimer(); setTimerUI(); renderQuiz();
+    publishState(true);
+  }
   function toggleTimer() {
+    if (phase === "ready") { startVoting(); return; }
     if (curQ == null || QZ.revealed[curQ]) return;
     if (phase === "closed") { // reabre com +15s
       QZ.elapsed[curQ] = Math.max(0, CONFIG.QUESTION_TIME * 1000 - 15000); phase = "open"; paused = false; publishState(true);
@@ -479,13 +588,18 @@
   function onEnter(s) {
     if (s.dataset.q != null) {
       curQ = +s.dataset.q; lastSec = null;
-      if (QZ.revealed[curQ]) { phase = "reveal"; s.classList.add("revealed"); }
+      if (QZ.revealed[curQ]) { phase = "reveal"; s.classList.add("revealed"); s.classList.remove("ready"); }
       else {
         s.classList.remove("revealed");
-        QZ.opened[curQ] = QZ.opened[curQ] || Date.now();
-        QZ.elapsed = QZ.elapsed || {};
-        phase = (QZ.elapsed[curQ] || 0) >= CONFIG.QUESTION_TIME * 1000 ? "closed" : "open";
-        paused = false; save(); startTimer();
+        QZ.elapsed = QZ.elapsed || {}; QZ.started = QZ.started || {};
+        paused = false;
+        if (!QZ.started[curQ]) { phase = "ready"; s.classList.add("ready"); clearInterval(tick); save(); } // apresentador lê primeiro; celulares aguardam
+        else {
+          s.classList.remove("ready");
+          QZ.opened[curQ] = QZ.opened[curQ] || Date.now();
+          phase = (QZ.elapsed[curQ] || 0) >= CONFIG.QUESTION_TIME * 1000 ? "closed" : "open";
+          save(); startTimer();
+        }
       }
       renderQuiz(); setTimerUI();
     } else {
@@ -493,7 +607,7 @@
       const idx = slides.indexOf(s);
       const quizStart = slides.findIndex((x) => x.dataset.lobby != null);
       const resIdx = slides.findIndex((x) => x.dataset.result != null);
-      if (s.dataset.lobby != null) phase = "lobby";
+      if (s.dataset.lobby != null) { resetQuiz(); phase = "lobby"; }
       else if (idx >= resIdx) { phase = "end"; if (s.dataset.result != null) renderPlenary(); }
       else if (idx < quizStart) phase = "idle";
     }
@@ -501,9 +615,16 @@
   }
   function onLeave(s) { if (s.dataset.q != null) { clearInterval(tick); s.classList.remove("urgent"); } }
 
+  // ao (re)entrar no lobby: zera votos/ranking e manda os celulares esquecerem as respostas (ninguém é desconectado)
+  function resetQuiz() {
+    QZ = { session: uid(6), votes: {}, opened: {}, revealed: {}, elapsed: {}, started: {} }; save();
+    $$(".slide.quiz").forEach((x) => { x.classList.remove("revealed"); x.classList.remove("ready"); });
+  }
+
   function resetAll() {
     if (!confirm("Zerar TODA a votação (votos, tempos e ranking)?")) return;
     QZ = { session: uid(6), votes: {}, opened: {}, revealed: {}, elapsed: {} }; save();
+    Object.keys(crowd).forEach((id) => { crowd[id].el.remove(); delete crowd[id]; }); crowdFit();
     $$(".slide.quiz").forEach((s) => s.classList.remove("revealed"));
     const s = slides[cur]; cur = -1; go(slides.indexOf(s));
   }
