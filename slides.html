@@ -7,8 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="slides.css?v=9">
-<link rel="stylesheet" href="fx.css?v=9">
+<link rel="stylesheet" href="slides.css?v=16">
+<link rel="stylesheet" href="fx.css?v=16">
 </head>
 <body>
 <div id="viewport">
@@ -332,6 +332,7 @@
   <section class="slide lobby" data-ch="quiz" data-role="quiz" data-lobby data-wipe
     data-notes="Perguntas: 'Celular na mão! Aponta a câmera pro QR code, ou digita o link. Não precisa de login nem de app.' Cada pessoa que entra aparece flutuando na tela. Espera o contador subir. Regras: Verdadeiro ou Falso, quem acerta mais rápido ganha mais pontos, e os 11 melhores formam o Plenário da turma.">
     <div class="bubbles" id="bubbles"></div>
+    <div class="crowd s0" id="crowd"></div>
     <div class="lobby-l">
       <div class="eyebrow">Quiz ao vivo</div>
       <h2 class="title">Verdadeiro ou falso?<br><span class="gold">Vote pelo celular.</span></h2>
@@ -348,7 +349,7 @@
     </div>
   </section>
 
-  <section class="slide quiz" data-ch="quiz" data-role="quiz" data-q="0" data-notes="Perguntas: lê a afirmação em voz alta. Quando a contagem estabilizar, tecla R para revelar. Lê a justificativa."></section>
+  <section class="slide quiz" data-ch="quiz" data-role="quiz" data-q="0" data-notes="Perguntas: lê a afirmação em voz alta e só então clica em Iniciar votação (ou →): a pergunta aparece nos celulares e começam os 30 s. Depois R para revelar. Lê a justificativa."></section>
   <section class="slide quiz" data-ch="quiz" data-role="quiz" data-q="1" data-notes="Perguntas: lê, espera os votos e aperta R para revelar."></section>
   <section class="slide quiz" data-ch="quiz" data-role="quiz" data-q="2" data-notes="Perguntas: lê, espera os votos e aperta R para revelar. Essa costuma enganar!"></section>
   <section class="slide quiz" data-ch="quiz" data-role="quiz" data-q="3" data-notes="Perguntas: 'Essa foi dada de bandeja no bloco B...' Depois R para revelar."></section>
@@ -389,15 +390,15 @@
   <h3>Atalhos</h3>
   <p><kbd>→</kbd> <kbd>Espaço</kbd> avançar · <kbd>←</kbd> voltar · <kbd>F</kbd> tela cheia</p>
   <p><kbd>N</kbd> notas do apresentador · <kbd>H</kbd> esta ajuda · <kbd>S</kbd> liga/desliga sons</p>
-  <p><kbd>R</kbd> revelar a resposta (no quiz) · <kbd>T</kbd> parar/retomar o tempo</p>
+  <p><kbd>→</kbd> no quiz: 1º inicia a votação (30 s), 2º revela a resposta · <kbd>R</kbd> revelar a resposta · <kbd>T</kbd> parar/retomar o tempo</p>
   <p>Plano B sem internet: <kbd>1</kbd> +1 voto Verdadeiro · <kbd>2</kbd> +1 voto Falso (mão levantada)</p>
   <p><kbd>Shift</kbd>+<kbd>Z</kbd> zerar toda a votação</p>
 </div>
 
 <script src="https://unpkg.com/mqtt@5.10.1/dist/mqtt.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src="shared.js?v=9"></script>
-<script src="fx.js?v=9"></script>
-<script src="slides.js?v=9"></script>
+<script src="shared.js?v=16"></script>
+<script src="fx.js?v=16"></script>
+<script src="slides.js?v=16"></script>
 </body>
 </html>
