@@ -56,20 +56,27 @@ footer{font-size:12px;color:#5d6888;text-align:center}
 .namebox input:focus{outline:2px solid var(--gold);border-color:transparent}
 .namebox button{background:var(--gold);color:#0a0f1e;border:0;border-radius:12px;padding:0 18px;font:800 15px Inter;cursor:pointer}
 .namebox small{display:block;margin-top:10px;color:var(--dim);font-size:13px}
+.namebox.gate{margin-top:8px}
+.namebox .err{color:var(--red);font-weight:600;min-height:18px}
+.ok-ring{width:96px;height:96px;border-radius:50%;margin:0 auto 22px;display:grid;place-items:center;font-size:48px;background:#35d39922;border:3px solid var(--green);box-shadow:0 0 40px #35d39955;animation:okpop .7s cubic-bezier(.2,1.7,.4,1)}
+@keyframes okpop{from{transform:scale(.2);opacity:0}}
+.chipname{display:inline-block;margin:6px 0 16px;padding:10px 20px;border-radius:999px;background:var(--panel);border:2px solid var(--green);font:800 22px Fraunces,serif;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wake{margin-top:22px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px 16px;font-size:15px;line-height:1.45;color:var(--ink)}
+.linkbtn{margin-top:18px;background:none;border:1px solid var(--line);border-radius:12px;color:var(--gold);font:700 14px Inter;padding:10px 16px;cursor:pointer}
 .pop{animation:pop .5s cubic-bezier(.2,1.6,.4,1)}
 @keyframes pop{from{transform:scale(.7);opacity:0}}
 </style>
 </head>
 <body>
 <header>
-  <div class="me"><span id="nick">…</span><button id="edit" type="button">trocar</button></div>
+  <div class="me"><span id="nick">…</span><button id="edit" type="button" hidden>trocar</button></div>
   <div class="st"><i id="dot"></i><span id="stt">conectando…</span></div>
 </header>
 <main id="view"><div class="center"><div class="pulse"></div><p>Conectando à votação…</p></div></main>
 <footer>Recurso Extraordinário · Direito do Trabalho</footer>
 
 <script src="https://unpkg.com/mqtt@5.10.1/dist/mqtt.min.js"></script>
-<script src="shared.js?v=8"></script>
+<script src="shared.js?v=16"></script>
 <script>
 (() => {
   const { CONFIG, QUESTIONS, uid, randomNick, store, createBus } = window.RE;
@@ -79,35 +86,64 @@ footer{font-size:12px;color:#5d6888;text-align:center}
   store.set(KEY, me);
   const $ = (s) => document.querySelector(s);
   const view = $("#view");
-  $("#nick").textContent = me.nick;
+  let editing = false, justNamed = false;
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  function paintMe() {
+    $("#nick").textContent = me.named ? me.nick : "sem nome";
+    $("#edit").hidden = !me.named;
+  }
+  paintMe();
   function setName(n) {
     n = String(n || "").trim().replace(/\s+/g, " ").slice(0, 24);
-    if (!n) return false;
+    if (n.length < 2) return false;
     me.nick = n; me.named = true; store.set(KEY, me);
-    $("#nick").textContent = me.nick; hello();
+    paintMe(); hello();
     return true;
   }
+  const waiting = () => !st || !["open", "closed", "reveal", "end"].includes(st.phase);
   $("#edit").onclick = () => {
-    const box = document.getElementById("nm");
-    if (box) { box.focus(); box.select(); return; }
-    const n = prompt("Seu nome no ranking:", me.named ? me.nick : "");
-    setName(n);
+    if (!me.named) return;
+    if (waiting()) { editing = true; render(true); }
+    else { const n = prompt("Corrigir seu nome:", me.nick); if (n != null && setName(n)) render(true); }
   };
-  // campo de nome (aparece enquanto o quiz não começou)
-  function nameBox() {
-    return `<form class="namebox" id="nmf" autocomplete="off">
-      <label for="nm">${me.named ? "Seu nome no ranking" : "Qual seu nome? (opcional)"}</label>
-      <div><input id="nm" maxlength="24" placeholder="Ex.: Ana, Pedro S." value="${me.named ? esc(me.nick) : ""}"><button type="submit">${me.named ? "Trocar" : "Salvar"}</button></div>
-      <small>${me.named ? "Pronto! É assim que você aparece no ranking." : `Se não preencher, você aparece como “${esc(me.nick)}”.`}</small>
-    </form>`;
+  // tela obrigatória de nome
+  function nameView() {
+    const first = !me.named;
+    view.innerHTML = `<div class="center pop"><div class="eyebrow">${first ? "Antes de entrar" : "Corrigir nome"}</div>
+      <h1>${first ? "Qual é o seu nome?" : "Como você quer aparecer?"}</h1>
+      <p>${first ? "Ele aparece no telão e no ranking. Sem nome não dá para participar." : "Ele muda na hora no telão."}</p></div>
+      <form class="namebox gate" id="nmf" autocomplete="off">
+        <label for="nm">Seu nome</label>
+        <div><input id="nm" maxlength="24" placeholder="Ex.: Ana, Pedro S." value="${first ? "" : esc(me.nick)}"><button type="submit">${first ? "Entrar" : "Salvar"}</button></div>
+        <small class="err" id="nerr"></small>
+      </form>
+      ${first ? "" : `<div class="center"><button class="linkbtn" id="ncancel" type="button">Cancelar</button></div>`}`;
+    const f = document.getElementById("nmf"), inp = document.getElementById("nm");
+    f.onsubmit = (e) => {
+      e.preventDefault();
+      if (!setName(inp.value)) { document.getElementById("nerr").textContent = "Digite seu nome (mínimo 2 letras)."; inp.focus(); return; }
+      editing = false; justNamed = true; lastKey = "";
+      if (navigator.vibrate) navigator.vibrate([30, 40, 30]);
+      render(true);
+    };
+    const c = document.getElementById("ncancel"); if (c) c.onclick = () => { editing = false; lastKey = ""; render(true); };
+    if (first) setTimeout(() => inp.focus(), 100);
   }
-  function bindNameBox() {
-    const f = document.getElementById("nmf"); if (!f) return;
-    f.onsubmit = (e) => { e.preventDefault(); if (setName(document.getElementById("nm").value)) render(true); };
+  // nome confirmado + espera
+  function waitView() {
+    view.innerHTML = `<div class="center ${justNamed ? "pop" : ""}">
+      <div class="ok-ring">✅</div>
+      <div class="eyebrow">Nome registrado!</div>
+      <div class="chipname">${esc(me.nick)}</div>
+      <h1>Aguarde a pergunta</h1>
+      <p>Ela aparece aqui sozinha, no momento certo.</p>
+      <div class="wake">📱 <b>Mantenha a tela ligada</b> e esta página aberta. Se o celular apagar a tela, você perde a pergunta.</div>
+      <button class="linkbtn" id="nfix" type="button">Corrigir nome</button></div>`;
+    document.getElementById("nfix").onclick = () => { editing = true; render(true); };
+    justNamed = false;
   }
 
   let st = null, lastKey = "", openedAtLocal = 0;
-  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
   const bus = createBus({
     subs: ["state"],
@@ -115,8 +151,8 @@ footer{font-size:12px;color:#5d6888;text-align:center}
     onMessage(kind, m) {
       if (kind !== "state") return;
       if (st && m.ts < st.ts) return; // ignora estado antigo
-      if (st && m.session !== st.session) me.votes = {};
-      if (!me.session || me.session !== m.session) { me.session = m.session; me.votes = {}; store.set(KEY, me); }
+      if (st && m.session !== st.session) { me.votes = {}; me.revealed = {}; }
+      if (!me.session || me.session !== m.session) { me.session = m.session; me.votes = {}; me.revealed = {}; store.set(KEY, me); }
       st = m; render();
     },
     onStatus(s) {
@@ -126,7 +162,7 @@ footer{font-size:12px;color:#5d6888;text-align:center}
       if ((s.mqtt || s.ntfy) && !bus._hello) { bus._hello = true; hello(); resend(); }
     },
   });
-  function hello() { bus.publish("hello", { id: me.id, nick: me.nick, session: me.session }); }
+  function hello() { if (!me.named) return; bus.publish("hello", { id: me.id, nick: me.nick, session: me.session }); }
   setInterval(() => { if (!document.hidden) hello(); }, 30000);
   function resend() { // reenvia o voto se caiu a conexão
     if (st && st.phase === "open" && me.votes[st.q]) send(st.q, me.votes[st.q]);
@@ -136,7 +172,7 @@ footer{font-size:12px;color:#5d6888;text-align:center}
     bus.publish("vote", { id: me.id, nick: me.nick, session: st.session, q, a });
   }
   function vote(a) {
-    if (!st || st.phase !== "open") return;
+    if (!me.named || !st || st.phase !== "open") return;
     me.votes[st.q] = a; store.set(KEY, me);
     send(st.q, a);
     if (navigator.vibrate) navigator.vibrate(30);
@@ -153,7 +189,8 @@ footer{font-size:12px;color:#5d6888;text-align:center}
   }
 
   function render(force) {
-    if (!st) return;
+    if (!me.named || editing) { if (!document.getElementById("nmf")) nameView(); return; }
+    if (!st) { if (!document.getElementById("nfix")) waitView(); return; }
     const key = st.phase + ":" + st.q + ":" + st.session;
     const changed = key !== lastKey; lastKey = key;
     if (!changed && !force) { // só atualiza contadores
@@ -195,12 +232,8 @@ footer{font-size:12px;color:#5d6888;text-align:center}
         ${pos >= 0 ? `<div class="big">${pos + 1}º</div><h1 style="margin-top:10px">${pos === 0 ? "Presidente do Plenário! 🏆" : "Você está no Plenário da turma! ⚖️"}</h1>` : `<h1>Fim do quiz!</h1><p>Não foi dessa vez no Plenário, mas valeu a participação.</p>`}
         <div class="score"><div><b>${h}</b><span>acertos</span></div>${pos >= 0 ? `<div><b>${top[pos].pts}</b><span>pontos</span></div>` : ""}</div>
         <p>Obrigado por participar! 👏</p></div>`;
-    } else if (st.phase === "lobby") {
-      view.innerHTML = `<div class="center pop"><div class="eyebrow">Você entrou! ✅</div><h1>O quiz já vai começar</h1><p>As perguntas aparecem nesta tela sozinhas. Deixe a página aberta.</p></div>${nameBox()}`;
-      bindNameBox();
     } else {
-      view.innerHTML = `<div class="center pop"><h1>Tudo certo por aqui ✅</h1><p>A apresentação está rolando. Quando o quiz começar, as perguntas aparecem nesta tela sozinhas. Deixe a página aberta.</p></div>${nameBox()}`;
-      bindNameBox();
+      waitView();
     }
   }
 
@@ -211,6 +244,21 @@ footer{font-size:12px;color:#5d6888;text-align:center}
     const left = Math.max(0, 1 - (Date.now() - openedAtLocal) / (CONFIG.QUESTION_TIME * 1000));
     tb.style.width = left * 100 + "%";
   }, 300);
+  render(true);
+
+  // mantém a tela do celular sempre ligada (Wake Lock); renova ao voltar para a aba ou ao tocar
+  let wl = null;
+  async function keepAwake() {
+    try {
+      if (!("wakeLock" in navigator) || document.hidden || (wl && !wl.released)) return;
+      wl = await navigator.wakeLock.request("screen");
+      wl.addEventListener("release", () => { wl = null; });
+    } catch (e) { }
+  }
+  keepAwake();
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) keepAwake(); });
+  ["touchstart", "click", "keydown"].forEach((ev) => document.addEventListener(ev, keepAwake, { passive: true }));
+  setInterval(keepAwake, 20000);
 })();
 </script>
 </body>
