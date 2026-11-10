@@ -267,6 +267,16 @@ body.idle{cursor:none}
 .bub{position:absolute;bottom:-90px;padding:12px 24px;border-radius:999px;background:#141f3df0;border:1px solid var(--gold);font:600 26px var(--sans);color:var(--gold2);white-space:nowrap;animation:rise 7s cubic-bezier(.3,0,.6,1) forwards;box-shadow:0 10px 30px #0008}
 @keyframes rise{0%{transform:translateY(0) scale(.5);opacity:0}10%{opacity:1;transform:translateY(-120px) scale(1)}50%{transform:translate(30px,-620px)}100%{transform:translate(-20px,-1250px);opacity:0}}
 
+/* ---------- nomes flutuando no lobby ---------- */
+.crowd{position:absolute;inset:0;pointer-events:none;z-index:60;overflow:hidden}
+.ctag{position:absolute;left:0;top:0;will-change:transform}
+.ctag .cin{display:inline-flex;align-items:center;gap:14px;padding:12px 31px 12px 19px;border-radius:999px;font:700 36px var(--sans);color:#fff;white-space:nowrap;background:linear-gradient(var(--cbg,#141f3d),var(--cbg,#141f3d)),#0d1530;border:2px solid var(--c,#e3b54a);box-shadow:0 0 22px var(--cglow,#e3b54a55),0 8px 24px #0008;animation:cpop .6s cubic-bezier(.2,1.5,.4,1) both}
+.ctag i{font-style:normal;font-size:1.15em;line-height:1}
+@keyframes cpop{from{opacity:0;transform:scale(.3)}to{opacity:1;transform:none}}
+.crowd.s1{gap:10px 16px}.crowd.s1 .cin{font-size:31px;padding:10px 24px 10px 17px;gap:12px}
+.crowd.s2{gap:8px 12px}.crowd.s2 .cin{font-size:26px;padding:7px 19px 7px 14px;gap:10px}
+.crowd.s3{gap:6px 10px}.crowd.s3 .cin{font-size:22px;padding:6px 16px 6px 12px;gap:8px}
+
 /* ---------- quiz ---------- */
 .bar{position:relative}
 .chip{position:absolute;left:50%;bottom:120px;font:900 40px var(--sans);color:#fff;pointer-events:none;text-shadow:0 0 18px currentColor;animation:chip 1s ease-out forwards}
@@ -292,6 +302,11 @@ body.idle{cursor:none}
 .reveal-btn span{font-size:22px}
 @keyframes btnPulse{50%{box-shadow:0 0 0 14px #e3b54a00,0 0 40px #e3b54a33}}
 .quiz.revealed .reveal-btn{display:none}
+.start-btn{margin-top:40px;display:inline-flex;align-items:center;gap:14px;padding:22px 40px;border-radius:18px;border:2px solid var(--green);background:linear-gradient(135deg,#0f3b2e,#12202a);color:#7ff0c3;font:800 30px var(--sans);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;animation:btnPulse 2.2s ease-in-out infinite;transition:transform .15s}
+.start-btn:hover{transform:scale(1.04)}
+.start-btn span{font-size:22px}
+.quiz:not(.ready) .start-btn,.quiz.revealed .start-btn{display:none}
+.quiz.ready .reveal-btn{display:none}
 .hit{display:none;margin-top:36px;align-items:baseline;gap:18px}
 .hit b{font:800 120px/1 var(--serif);color:var(--gold)}
 .hit span{font-size:34px;color:var(--ink)}
