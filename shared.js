@@ -27,8 +27,8 @@ window.RE = (() => {
   // da pessoa (ex.: name: "Fulano") e a apresentação inteira se ajusta sozinha.
   const ROLES = {
     intro: { name: "Brenno Oliveira", label: "Abertura e introdução" },
-    a: { name: "Aléssio Cripa", label: "Bloco A · O que é e quando cabe" },
-    b: { name: "Igor Souza", label: "Bloco B · Os filtros do RE" },
+    a: { name: "Igor Souza", label: "Bloco A · O que é e quando cabe" },
+    b: { name: "Aléssio Cripa", label: "Bloco B · Os filtros do RE" },
     c: { name: "Elaine Pâmela", label: "Bloco C · Tramitação, efeitos e casos" },
     quiz: { name: "Jhuly Emanuelly", label: "Quiz ao vivo" },
     end: { name: "Boa noite!", label: "Encerramento" },
