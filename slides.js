@@ -146,13 +146,17 @@
     $("#notesText").textContent = s.dataset.notes || "";
   }
 
-  let l3timer;
+  let l3timer, l3out;
   function lowerThird(role) {
     const r = ROLES[role]; if (!r) return;
     $("#l3name").textContent = r.name; $("#l3role").textContent = r.label;
     const el = $("#lower3");
-    el.classList.add("show");
-    clearTimeout(l3timer); l3timer = setTimeout(() => el.classList.remove("show"), 4800);
+    clearTimeout(l3timer); clearTimeout(l3out);
+    el.classList.remove("out"); el.classList.add("show");
+    l3timer = setTimeout(() => {
+      el.classList.add("out");
+      l3out = setTimeout(() => el.classList.remove("show", "out"), 1300);
+    }, 9000);
   }
 
   let recapTimer = null;
