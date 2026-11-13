@@ -337,3 +337,9 @@ body.shot #podium{opacity:1!important}
 #snd{cursor:pointer;font-size:14px}
 
 
+
+/* saída da tarja: varredura de luz, caixa se fecha pela direita, barra desce e tudo sobe com blur */
+#lower3.show.out{animation:l3up 1.3s cubic-bezier(.6,0,.3,1) forwards}
+#lower3.show.out .l3-box{clip-path:inset(0 0 0 100%);transition:clip-path .8s .15s cubic-bezier(.7,0,.2,1);box-shadow:0 0 40px #e3b54a88}
+#lower3.show.out .l3-bar{transform:scaleY(0);transform-origin:top;transition:transform .5s .65s;box-shadow:0 0 24px #e3b54a}
+@keyframes l3up{0%{filter:brightness(1)}25%{filter:brightness(1.8) drop-shadow(0 0 18px #e3b54a)}70%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-40px) scale(.96);filter:blur(8px)}}
