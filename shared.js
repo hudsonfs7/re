@@ -26,12 +26,12 @@ window.RE = (() => {
   // Quem fala em cada parte. Quando o grupo decidir, é só trocar "name" pelo nome
   // da pessoa (ex.: name: "Fulano") e a apresentação inteira se ajusta sozinha.
   const ROLES = {
-    intro: { name: "Boas-vindas", label: "Abertura e introdução" },
-    a: { name: "Apresentador 1", label: "Bloco A · O que é e quando cabe" },
-    b: { name: "Apresentador 2", label: "Bloco B · Os filtros do RE" },
-    c: { name: "Apresentador 3", label: "Bloco C · Tramitação, efeitos e casos" },
-    quiz: { name: "Perguntas", label: "Quiz ao vivo" },
-    end: { name: "Boas-vindas", label: "Encerramento" },
+    intro: { name: "Brenno Oliveira", label: "Abertura e introdução" },
+    a: { name: "Aléssio Cripa", label: "Bloco A · O que é e quando cabe" },
+    b: { name: "Igor Souza", label: "Bloco B · Os filtros do RE" },
+    c: { name: "Elaine Pâmela", label: "Bloco C · Tramitação, efeitos e casos" },
+    quiz: { name: "Jhuly Emanuelly", label: "Quiz ao vivo" },
+    end: { name: "Boa noite!", label: "Encerramento" },
   };
 
   const QUESTIONS = [
